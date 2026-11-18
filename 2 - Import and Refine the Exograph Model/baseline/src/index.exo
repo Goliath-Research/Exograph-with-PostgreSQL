@@ -19,10 +19,10 @@ module CommerceDatabase {
   @access(query=false, mutation=false)
   type OrderItem {
     @pk orderItemId: Int
-    @unique lineNo: Int
+    @unique("order_line") lineNo: Int
     quantity: Int
     unitPriceCents: Int
-    @unique @column("order_id") order: Order
+    @unique("order_line") @column("order_id") order: Order
     @column("sku") product: Product
   }
 
