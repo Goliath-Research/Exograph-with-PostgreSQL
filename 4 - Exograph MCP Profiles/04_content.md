@@ -38,7 +38,8 @@ $env:EXO_SERVER_HOST = '127.0.0.1'
 $env:EXO_SERVER_PORT = '9876'
 $env:EXO_MCP_MODE = 'combined'
 $env:EXO_POSTGRES_READ_WRITE = 'false'
-$env:EXO_POSTGRES_URL = ('postgresql://' + 'exograph_runtime:' + $env:LAB_RUNTIME_PASSWORD + '@127.0.0.1:55432/exograph_commerce')
+$postgresPort = if ($env:LAB_POSTGRES_PORT) { $env:LAB_POSTGRES_PORT } else { '55432' }
+$env:EXO_POSTGRES_URL = ('postgresql://' + 'exograph_runtime:' + $env:LAB_RUNTIME_PASSWORD + '@127.0.0.1:' + $postgresPort + '/exograph_commerce')
 # Set EXO_JWT_SECRET locally to the key used to sign the Module 3 lab identities.
 exo --version
 exo build

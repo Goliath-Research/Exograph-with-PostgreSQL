@@ -206,7 +206,11 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
                 except Exception as error:
                     self.assertTrue(has_http_status(error, {401, 403}), repr(error))
                 else:
-                    self.assertTrue(denied.isError or graphql_rows(denied, "staffSalesReport") in (None, []), tool_text(denied))
+                    self.assertIn(
+                        graphql_rows(denied, "staffSalesReport"),
+                        (None, []),
+                        tool_text(denied),
+                    )
 
     async def test_anonymous_cannot_read_customer_history(self):
         try:

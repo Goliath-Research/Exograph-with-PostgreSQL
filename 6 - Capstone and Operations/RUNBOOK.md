@@ -9,7 +9,9 @@ Python 3.12 or newer, and Exograph CLI `0.29.1` installed from the
 
 Set distinct throwaway admin and runtime passwords in the shell. Use
 alphanumeric values so the runtime password can be placed in a connection URL
-without URL escaping. Start PostgreSQL and run the existing Module 1
+without URL escaping. If host port 55432 is occupied, set `LAB_POSTGRES_PORT`
+to a free port before starting Compose; the same setting is used in the
+Exograph connection URL below. Start PostgreSQL and run the existing Module 1
 verification as documented in its [runbook](../1%20-%20Reproducible%20PostgreSQL%20Lab/RUNBOOK.md):
 
 ```powershell
@@ -37,7 +39,8 @@ $env:EXO_SERVER_HOST = '127.0.0.1'
 $env:EXO_SERVER_PORT = '9876'
 $env:EXO_MCP_MODE = 'combined'
 $env:EXO_POSTGRES_READ_WRITE = 'false'
-$env:EXO_POSTGRES_URL = ('postgresql://' + 'exograph_runtime:' + $env:LAB_RUNTIME_PASSWORD + '@127.0.0.1:55432/exograph_commerce')
+$postgresPort = if ($env:LAB_POSTGRES_PORT) { $env:LAB_POSTGRES_PORT } else { '55432' }
+$env:EXO_POSTGRES_URL = ('postgresql://' + 'exograph_runtime:' + $env:LAB_RUNTIME_PASSWORD + '@127.0.0.1:' + $postgresPort + '/exograph_commerce')
 $env:EXO_JWT_SECRET = '<local lab signing secret>'
 exo --version
 exo build
