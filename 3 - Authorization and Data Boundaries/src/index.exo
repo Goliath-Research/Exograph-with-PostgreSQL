@@ -1,0 +1,41 @@
+context AuthContext {
+    @jwt role: String?
+    @jwt("customer_id") customerId: Int?
+}
+
+@postgres(schema = "commerce")
+module Commerce {
+    @access(query = AuthContext.role == "customer" && self.customerId == AuthContext.customerId, mutation = false)
+    type Customer {
+        @pk customerId: Int
+        customerName: String
+        orders: Set<Order>
+    }
+
+    @access(query = AuthContext.role == "customer" && self.customer.customerId == AuthContext.customerId, mutation = false)
+    type Order {
+        @pk orderId: Int
+        @column("customer_id") customer: Customer
+        orderedAt: Instant
+        orderStatus: String
+        orderItems: Set<OrderItem>
+    }
+
+    @access(query = AuthContext.role == "customer" && self.order.customer.customerId == AuthContext.customerId, mutation = false)
+    type OrderItem {
+        @pk orderItemId: Int
+        @column("order_id") order: Order
+        lineNo: Int
+        @column("sku") product: Product
+        quantity: Int
+        unitPriceCents: Int
+    }
+
+    @access(query = AuthContext.role == "customer" && AuthContext.customerId > 0, mutation = false)
+    type Product {
+        @pk sku: String
+        productName: String
+        category: String
+        orderItems: Set<OrderItem>
+    }
+}
