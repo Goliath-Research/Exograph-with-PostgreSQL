@@ -1,0 +1,36 @@
+@postgres(schema="commerce")
+module CommerceDatabase {
+  @access(query=false, mutation=false)
+  type Customer {
+    @pk customerId: Int
+    customerName: String
+    orders: Set<Order>
+  }
+
+  @access(query=false, mutation=false)
+  type Order {
+    @pk orderId: Int
+    orderedAt: Instant
+    orderStatus: String
+    @column("customer_id") customer: Customer
+    orderItem: OrderItem
+  }
+
+  @access(query=false, mutation=false)
+  type OrderItem {
+    @pk orderItemId: Int
+    @unique lineNo: Int
+    quantity: Int
+    unitPriceCents: Int
+    @unique @column("order_id") order: Order
+    @column("sku") product: Product
+  }
+
+  @access(query=false, mutation=false)
+  type Product {
+    @pk sku: String
+    category: String
+    productName: String
+    orderItems: Set<OrderItem>
+  }
+}
