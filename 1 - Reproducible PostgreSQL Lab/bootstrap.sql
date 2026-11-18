@@ -33,7 +33,7 @@ CREATE TABLE commerce.order_items (
     sku text NOT NULL REFERENCES commerce.products (sku),
     quantity integer NOT NULL CHECK (quantity > 0),
     unit_price_cents integer NOT NULL CHECK (unit_price_cents >= 0),
-    CONSTRAINT order_line UNIQUE (order_id, line_no)
+    CONSTRAINT unique_constraint_order_item_order_line UNIQUE (line_no, order_id)
 );
 
 INSERT INTO commerce.customers VALUES (1, 'Ada'), (2, 'Lin');
@@ -51,4 +51,5 @@ INSERT INTO commerce.order_items VALUES
 GRANT USAGE ON SCHEMA commerce TO exograph_runtime;
 GRANT SELECT ON commerce.customers, commerce.products, commerce.orders,
     commerce.order_items TO exograph_runtime;
+ALTER ROLE exograph_runtime IN DATABASE exograph_commerce SET search_path = commerce;
 COMMIT;

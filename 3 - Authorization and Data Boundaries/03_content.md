@@ -4,7 +4,7 @@
 
 [Course plan](../README.md) · [Module 2](../2%20-%20Import%20and%20Refine%20the%20Exograph%20Model/02_content.md)
 
-> Status: Guide only. The runnable Exograph model, identity configuration, and automated tests are not included yet.
+> Includes the runnable Exograph model ([src/index.exo](src/index.exo) and [src/staff_report.ts](src/staff_report.ts)), identity template ([identity.env.example](identity.env.example)), and automated acceptance suites ([tests/test_access.py](tests/test_access.py) and [tests/test_remaining_access.py](tests/test_remaining_access.py)).
 
 ## Goal
 

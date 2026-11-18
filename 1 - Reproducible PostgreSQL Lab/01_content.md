@@ -4,7 +4,7 @@
 
 Return to the [course plan](../README.md).
 
-This lab includes [Compose configuration](compose.yaml) and [bootstrap SQL](bootstrap.sql). Automated checks are not included yet; use the manual acceptance checks below.
+This lab includes [Compose configuration](compose.yaml), [bootstrap SQL](bootstrap.sql), [automated SQL verification](verify.sql), and a step-by-step [Runbook](RUNBOOK.md).
 
 ## Goal
 

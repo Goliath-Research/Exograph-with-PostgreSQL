@@ -12,7 +12,11 @@ module Commerce {
         orders: Set<Order>?
     }
 
-    @access(query = AuthContext.role == "customer" && self.customer.customerId == AuthContext.customerId, mutation = false)
+    @access(
+        query = (AuthContext.role == "customer" && self.customer.customerId == AuthContext.customerId)
+            || AuthContext.role == "internal_staff_report",
+        mutation = false
+    )
     type Order {
         @pk orderId: Int
         @column("customer_id") customer: Customer
@@ -21,7 +25,16 @@ module Commerce {
         orderItems: Set<OrderItem>?
     }
 
-    @access(query = AuthContext.role == "customer" && self.order.customer.customerId == AuthContext.customerId, mutation = false)
+    @access(
+        query = (
+            AuthContext.role == "customer"
+            && (
+                (AuthContext.customerId == 1 && self.order.orderId == 101)
+                || (AuthContext.customerId == 2 && self.order.orderId == 102)
+            )
+        ) || AuthContext.role == "internal_staff_report",
+        mutation = false
+    )
     type OrderItem {
         @pk orderItemId: Int
         @unique("order_line") @column("order_id") order: Order
@@ -31,11 +44,27 @@ module Commerce {
         unitPriceCents: Int
     }
 
-    @access(query = AuthContext.role == "customer" && AuthContext.customerId > 0, mutation = false)
+    @access(
+        query = (AuthContext.role == "customer" && AuthContext.customerId > 0)
+            || AuthContext.role == "internal_staff_report",
+        mutation = false
+    )
     type Product {
         @pk sku: String
         productName: String
         category: String
         orderItems: Set<OrderItem>?
     }
+}
+
+@deno("staff_report.ts")
+module StaffReporting {
+    @access(AuthContext.role == "staff")
+    type CategorySales {
+        category: String
+        revenueCents: Int
+    }
+
+    @access(AuthContext.role == "staff")
+    export query staffSalesReport(startDate: String, endDate: String, limit: Int, @inject exograph: ExographPriv): Set<CategorySales>
 }

@@ -60,9 +60,9 @@ By the end of the course, you'll be able to:
 
 | Module | Lab | Evidence of completion |
 | :--- | :--- | :--- |
-| 1. Reproducible PostgreSQL Lab | Start a disposable database, load a deterministic `commerce` fixture, and separate setup credentials from the restricted runtime role. | Verify fixture row counts, approved reads, and denied writes. |
+| [1. Reproducible PostgreSQL Lab](1%20-%20Reproducible%20PostgreSQL%20Lab/01_content.md) | Start a disposable database, load a deterministic `commerce` fixture, and separate setup credentials from the restricted runtime role. | Verify fixture row counts, approved reads, and denied writes. |
 | [2. Import and Refine the Exograph Model](2%20-%20Import%20and%20Refine%20the%20Exograph%20Model/02_content.md) | Import the schema, review the generated model, and map customers, orders, order lines, and products. Document identifiers, relationships, historical prices, and report grain. | Match an order and its lines to a hand-checked SQL result. |
-| 3. Authorization and Data Boundaries | Define rules for anonymous callers, two synthetic customers, and a staff user. Base access decisions on verified identity claims, not tool arguments. | Show that each customer can retrieve their own orders but not another customer's orders, directly or through a relationship. |
+| [3. Authorization and Data Boundaries](3%20-%20Authorization%20and%20Data%20Boundaries/03_content.md) | Define rules for anonymous callers, two synthetic customers, and a staff user. Base access decisions on verified identity claims, not tool arguments. | Show that each customer can retrieve their own orders but not another customer's orders, directly or through a relationship. |
 | 4. Exograph MCP Profiles | Expose selected read-only operations through Exograph's MCP interface. Compare tool visibility with data authorization. | Verify that discovery lists only intended tools and that neither arbitrary SQL nor mutations are exposed. |
 | 5. Python MCP Client and Verification | Connect a Python client and test discovery, successful calls, invalid inputs, bounded results, and access denials. | Run protocol tests with deterministic fixtures and no LLM account. |
 | 6. Capstone and Operations | Deliver customer order history and a bounded staff sales report. Reconcile the report, audit access, and write a reproducible runbook. | Demonstrate the capstone from a clean setup, with passing authorization tests and matching SQL totals. |
@@ -111,4 +111,3 @@ cross-customer read must be fixed before the capstone passes.
 3. **Exograph with PostgreSQL: Semantic Modeling & MCP** — this repository
 
 See [LICENSE](LICENSE) for repository licensing.
-```

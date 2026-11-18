@@ -4,7 +4,7 @@
 
 [Course plan](../README.md) · [Module 1](../1%20-%20Reproducible%20PostgreSQL%20Lab/01_content.md)
 
-> Status: Guide only. A checked-in Exograph model, pinned CLI version, and automated checks are not included yet.
+> Includes the refined baseline Exograph model ([baseline/src/index.exo](baseline/src/index.exo)) verified with Exograph CLI `0.29.1` (`exo build` and `exo schema verify`).
 
 ## Goal
 
