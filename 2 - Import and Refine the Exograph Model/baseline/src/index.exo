@@ -13,7 +13,7 @@ module CommerceDatabase {
     orderedAt: Instant
     orderStatus: String
     @column("customer_id") customer: Customer
-    orderItem: OrderItem?
+    orderItems: Set<OrderItem>?
   }
 
   @access(query=false, mutation=false)

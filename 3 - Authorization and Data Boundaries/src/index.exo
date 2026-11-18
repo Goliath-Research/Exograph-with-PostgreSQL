@@ -24,8 +24,8 @@ module Commerce {
     @access(query = AuthContext.role == "customer" && self.order.customer.customerId == AuthContext.customerId, mutation = false)
     type OrderItem {
         @pk orderItemId: Int
-        @column("order_id") order: Order
-        lineNo: Int
+        @unique("order_line") @column("order_id") order: Order
+        @unique("order_line") lineNo: Int
         @column("sku") product: Product
         quantity: Int
         unitPriceCents: Int
