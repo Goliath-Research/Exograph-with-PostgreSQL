@@ -8,9 +8,11 @@ read-only subset of it through the Model Context Protocol (MCP). Use Exograph
 to define the domain model and access rules, then use Python to discover,
 call, and test the resulting MCP tools.
 
-> **Status:** Course in development. This README is the lesson plan. Module
-> guides, lab files, and verified setup instructions will be added as the labs
-> are implemented.
+> **Status:** Guides and lab artifacts for Modules 1–6 are implemented. The
+> course owner has locally verified Modules 1–3. This implementation built
+> with Exograph 0.29.1, passed the Module 5 live MCP suite against a disposable
+> loopback lab, and reconciled Module 6's SQL totals. A separate clean-checkout
+> rehearsal is not claimed.
 
 ## Prerequisites
 
@@ -58,14 +60,14 @@ By the end of the course, you'll be able to:
 
 ## Six-module lesson plan
 
-| Module | Lab | Evidence of completion |
-| :--- | :--- | :--- |
-| [1. Reproducible PostgreSQL Lab](1%20-%20Reproducible%20PostgreSQL%20Lab/01_content.md) | Start a disposable database, load a deterministic `commerce` fixture, and separate setup credentials from the restricted runtime role. | Verify fixture row counts, approved reads, and denied writes. |
-| [2. Import and Refine the Exograph Model](2%20-%20Import%20and%20Refine%20the%20Exograph%20Model/02_content.md) | Import the schema, review the generated model, and map customers, orders, order lines, and products. Document identifiers, relationships, historical prices, and report grain. | Match an order and its lines to a hand-checked SQL result. |
-| [3. Authorization and Data Boundaries](3%20-%20Authorization%20and%20Data%20Boundaries/03_content.md) | Define rules for anonymous callers, two synthetic customers, and a staff user. Base access decisions on verified identity claims, not tool arguments. | Show that each customer can retrieve their own orders but not another customer's orders, directly or through a relationship. |
-| 4. Exograph MCP Profiles | Expose selected read-only operations through Exograph's MCP interface. Compare tool visibility with data authorization. | Verify that discovery lists only intended tools and that neither arbitrary SQL nor mutations are exposed. |
-| 5. Python MCP Client and Verification | Connect a Python client and test discovery, successful calls, invalid inputs, bounded results, and access denials. | Run protocol tests with deterministic fixtures and no LLM account. |
-| 6. Capstone and Operations | Deliver customer order history and a bounded staff sales report. Reconcile the report, audit access, and write a reproducible runbook. | Demonstrate the capstone from a clean setup, with passing authorization tests and matching SQL totals. |
+| Module | Lab | Guide status | Evidence of completion |
+| :--- | :--- | :--- | :--- |
+| [1. Reproducible PostgreSQL Lab](1%20-%20Reproducible%20PostgreSQL%20Lab/01_content.md) | Start a disposable database, load a deterministic `commerce` fixture, and separate setup credentials from the restricted runtime role. | Implemented · locally verified by course owner | Verify fixture row counts, approved reads, and denied writes. |
+| [2. Import and Refine the Exograph Model](2%20-%20Import%20and%20Refine%20the%20Exograph%20Model/02_content.md) | Import the schema, review the generated model, and map customers, orders, order lines, and products. Document identifiers, relationships, historical prices, and report grain. | Implemented · locally verified by course owner | Match an order and its lines to a hand-checked SQL result. |
+| [3. Authorization and Data Boundaries](3%20-%20Authorization%20and%20Data%20Boundaries/03_content.md) | Define rules for anonymous callers, two synthetic customers, and a staff user. Base access decisions on verified identity claims, not tool arguments. | Implemented · locally verified by course owner | Show that each customer can retrieve their own orders but not another customer's orders, directly or through a relationship. |
+| [4. Exograph MCP Profiles](4%20-%20Exograph%20MCP%20Profiles/04_content.md) | Expose selected read-only operations through Exograph's MCP interface. Compare tool visibility with data authorization. | Implemented · CLI build and local MCP checks passed | Verify discovery lists only intended tools, and neither arbitrary SQL nor mutations are exposed. |
+| [5. Python MCP Client and Verification](5%20-%20Python%20MCP%20Client%20and%20Verification/05_content.md) | Connect a Python client and test discovery, successful calls, invalid inputs, bounded results, and access denials. | Implemented · live acceptance suite passed on disposable lab | Run protocol tests with deterministic fixtures and no LLM account. |
+| [6. Capstone and Operations](6%20-%20Capstone%20and%20Operations/06_content.md) | Deliver customer order history and a bounded staff sales report. Reconcile the report, audit access, and write a reproducible runbook. | Implemented · SQL reconciliation passed; clean-checkout rehearsal not run | Demonstrate the capstone from a clean setup, with passing authorization tests and matching SQL totals. |
 
 ## Capstone: Customer order history and staff sales reporting
 
