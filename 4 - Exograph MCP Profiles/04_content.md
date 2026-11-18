@@ -9,8 +9,8 @@
 Run the existing Module 3 model as a loopback-only MCP server. The profiles in
 [`../3 - Authorization and Data Boundaries/exo.toml`](../3%20-%20Authorization%20and%20Data%20Boundaries/exo.toml)
 allow only the `orders` and `staffSalesReport` query operations. They create
-two tools, `execute_query-customer_order_history` and
-`execute_query-staff_sales_report`; mutations are explicitly not included.
+two tools, `execute_query_customer_order_history` and
+`execute_query_staff_sales_report`; mutations are explicitly not included.
 The first tool can return order history with nested lines, while the second
 returns the bounded category report. The staff profile also includes `orders`
 because the report's privileged implementation queries order data internally;

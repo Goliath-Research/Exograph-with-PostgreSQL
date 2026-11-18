@@ -83,8 +83,8 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(
             {tool.name for tool in result.tools},
             {
-                "execute_query-customer_order_history",
-                "execute_query-staff_sales_report",
+                "execute_query_customer_order_history",
+                "execute_query_staff_sales_report",
             },
         )
 
@@ -109,7 +109,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
         ):
             with self.subTest(customer=name):
                 result = await self.invoke(
-                    "execute_query-customer_order_history", query, self.tokens[name]
+                    "execute_query_customer_order_history", query, self.tokens[name]
                 )
                 orders = graphql_rows(result, "orders")
                 self.assertFalse(result.isError, tool_text(result))
@@ -130,7 +130,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
     async def test_malformed_sql_and_mutations_are_rejected(self):
         try:
             malformed = await self.invoke(
-                "execute_query-customer_order_history", "query { orders {"
+                "execute_query_customer_order_history", "query { orders {"
             )
         except Exception as error:
             self.assertTrue(has_http_status(error, {400}), repr(error))
@@ -149,7 +149,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
             with self.subTest(query=query):
                 try:
                     result = await self.invoke(
-                        "execute_query-customer_order_history",
+                        "execute_query_customer_order_history",
                         query,
                         self.tokens["ADA"],
                     )
@@ -172,7 +172,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
         }
         """
         result = await self.invoke(
-            "execute_query-staff_sales_report", query, self.tokens["STAFF"]
+            "execute_query_staff_sales_report", query, self.tokens["STAFF"]
         )
         rows = graphql_rows(result, "staffSalesReport")
         self.assertFalse(result.isError, tool_text(result))
@@ -181,7 +181,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
 
         try:
             invalid_limit = await self.invoke(
-                "execute_query-staff_sales_report",
+                "execute_query_staff_sales_report",
                 query.replace("limit: 1", "limit: 101"),
                 self.tokens["STAFF"],
             )
@@ -199,7 +199,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
             with self.subTest(caller=caller):
                 try:
                     denied = await self.invoke(
-                        "execute_query-staff_sales_report",
+                        "execute_query_staff_sales_report",
                         query,
                         self.tokens[caller],
                     )
@@ -215,7 +215,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
     async def test_anonymous_cannot_read_customer_history(self):
         try:
             result = await self.invoke(
-                "execute_query-customer_order_history",
+                "execute_query_customer_order_history",
                 "query { orders { orderId } }",
             )
         except Exception as error:
@@ -229,7 +229,7 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
     async def test_staff_cannot_read_raw_customer_orders(self):
         try:
             result = await self.invoke(
-                "execute_query-staff_sales_report",
+                "execute_query_staff_sales_report",
                 "query { orders { orderId customer { customerId } } }",
                 self.tokens["STAFF"],
             )
@@ -238,6 +238,8 @@ class MCPAcceptanceTests(unittest.IsolatedAsyncioTestCase):
             return
         rows = graphql_rows(result, "orders")
         self.assertIn(rows, (None, []))
+        self.assertNotIn("101", tool_text(result))
+        self.assertNotIn("102", tool_text(result))
 
 
 if __name__ == "__main__":
