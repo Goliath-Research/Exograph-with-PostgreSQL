@@ -1,0 +1,16 @@
+[exograph]
+version = "=0.29.1"
+
+[[mcp.profiles]]
+name = "customer_order_history"
+queries.operations.include = ["orders"]
+queries.models.include = ["*"]
+mutations.operations.include = []
+mutations.models.include = []
+
+[[mcp.profiles]]
+name = "staff_sales_report"
+queries.operations.include = ["orders", "staffSalesReport"]
+queries.models.include = ["*"]
+mutations.operations.include = []
+mutations.models.include = []
