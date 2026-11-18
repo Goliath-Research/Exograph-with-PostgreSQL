@@ -4,7 +4,7 @@
 
 Return to the [course plan](../README.md).
 
-> Status: Guide only. The Compose configuration, bootstrap SQL, and automated checks are not included yet. The steps below define the lab and its acceptance criteria; they are not a verified startup procedure.
+This lab includes [Compose configuration](compose.yaml) and [bootstrap SQL](bootstrap.sql). Automated checks are not included yet; use the manual acceptance checks below.
 
 ## Goal
 
