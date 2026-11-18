@@ -10,27 +10,27 @@ module CommerceDatabase {
   @access(query=false, mutation=false)
   type Order {
     @pk orderId: Int
+    @column("customer_id") customer: Customer
     orderedAt: Instant
     orderStatus: String
-    @column("customer_id") customer: Customer
     orderItems: Set<OrderItem>?
   }
 
   @access(query=false, mutation=false)
   type OrderItem {
     @pk orderItemId: Int
+    @unique("order_line") @column("order_id") order: Order
     @unique("order_line") lineNo: Int
+    @column("sku") product: Product
     quantity: Int
     unitPriceCents: Int
-    @unique("order_line") @column("order_id") order: Order
-    @column("sku") product: Product
   }
 
   @access(query=false, mutation=false)
   type Product {
     @pk sku: String
-    category: String
     productName: String
+    category: String
     orderItems: Set<OrderItem>?
   }
 }

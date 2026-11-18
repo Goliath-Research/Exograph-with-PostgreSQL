@@ -33,7 +33,7 @@ CREATE TABLE commerce.order_items (
     sku text NOT NULL REFERENCES commerce.products (sku),
     quantity integer NOT NULL CHECK (quantity > 0),
     unit_price_cents integer NOT NULL CHECK (unit_price_cents >= 0),
-    UNIQUE (order_id, line_no)
+    CONSTRAINT order_line UNIQUE (order_id, line_no)
 );
 
 INSERT INTO commerce.customers VALUES (1, 'Ada'), (2, 'Lin');
