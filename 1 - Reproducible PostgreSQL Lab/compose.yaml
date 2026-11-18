@@ -1,0 +1,21 @@
+name: exograph-course-module-1
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: exograph_commerce
+      POSTGRES_USER: lab_admin
+      POSTGRES_PASSWORD: ${LAB_ADMIN_PASSWORD:?Set LAB_ADMIN_PASSWORD}
+      LAB_RUNTIME_PASSWORD: ${LAB_RUNTIME_PASSWORD:?Set LAB_RUNTIME_PASSWORD}
+    ports:
+      - "127.0.0.1:${LAB_POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./bootstrap.sql:/docker-entrypoint-initdb.d/01-bootstrap.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U lab_admin -d exograph_commerce"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  pgdata:
