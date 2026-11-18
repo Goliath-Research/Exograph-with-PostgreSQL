@@ -4,7 +4,7 @@ module CommerceDatabase {
   type Customer {
     @pk customerId: Int
     customerName: String
-    orders: Set<Order>
+    orders: Set<Order>?
   }
 
   @access(query=false, mutation=false)
@@ -13,7 +13,7 @@ module CommerceDatabase {
     orderedAt: Instant
     orderStatus: String
     @column("customer_id") customer: Customer
-    orderItem: OrderItem
+    orderItem: OrderItem?
   }
 
   @access(query=false, mutation=false)
@@ -31,6 +31,6 @@ module CommerceDatabase {
     @pk sku: String
     category: String
     productName: String
-    orderItems: Set<OrderItem>
+    orderItems: Set<OrderItem>?
   }
 }

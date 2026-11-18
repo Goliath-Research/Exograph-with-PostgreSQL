@@ -9,7 +9,7 @@ module Commerce {
     type Customer {
         @pk customerId: Int
         customerName: String
-        orders: Set<Order>
+        orders: Set<Order>?
     }
 
     @access(query = AuthContext.role == "customer" && self.customer.customerId == AuthContext.customerId, mutation = false)
@@ -18,7 +18,7 @@ module Commerce {
         @column("customer_id") customer: Customer
         orderedAt: Instant
         orderStatus: String
-        orderItems: Set<OrderItem>
+        orderItems: Set<OrderItem>?
     }
 
     @access(query = AuthContext.role == "customer" && self.order.customer.customerId == AuthContext.customerId, mutation = false)
@@ -36,6 +36,6 @@ module Commerce {
         @pk sku: String
         productName: String
         category: String
-        orderItems: Set<OrderItem>
+        orderItems: Set<OrderItem>?
     }
 }
