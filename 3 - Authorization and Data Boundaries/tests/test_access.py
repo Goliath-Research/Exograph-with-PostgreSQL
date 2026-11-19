@@ -1,10 +1,10 @@
-"""Opt-in acceptance tests for the planned Exograph GraphQL contract.
+"""Opt-in acceptance tests for the Module 3 Exograph GraphQL contract.
 
 Set EXO_TEST_URL to the local GraphQL URL and EXO_TEST_ADA_TOKEN,
 EXO_TEST_LIN_TOKEN, EXO_TEST_STAFF_TOKEN, EXO_TEST_EXPIRED_TOKEN, and
 EXO_TEST_MISSING_ID_TOKEN to signed lab tokens. Never commit tokens.
 Run python -m unittest discover -s "3 - Authorization and Data Boundaries/tests" -v.
-Adjust field names to the checked-in model when that model lands.
+Field names match the checked-in model: orderId, orderItemId, and staffSalesReport.
 """
 import json
 import os

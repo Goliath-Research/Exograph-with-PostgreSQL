@@ -10,6 +10,10 @@ This lab includes [Compose configuration](compose.yaml), [bootstrap SQL](bootstr
 
 Prepare the disposable PostgreSQL database that Module 2 will import into Exograph. Use synthetic e-commerce data and prove that the runtime role can query the intended tables without being able to change them.
 
+## Fixture versus Course 2
+
+This lab creates a new disposable database. It is not a restore of Course 2's `goliath_ecommerce`. The `commerce` schema here is smaller: integer order ids, no warehouses, no catalog observations, `timestamptz` timestamps, and an `order_status` check for `PENDING`, `PAID`, `SHIPPED`, and `CANCELLED`. Course 2 stores `order_status` as text, including `DELIVERED`, and does not add that check.
+
 ## Lab sequence
 
 1. Start a fresh PostgreSQL instance and bind any published database port to loopback. Keep credentials outside version control and do not point the lab at a production or shared database.

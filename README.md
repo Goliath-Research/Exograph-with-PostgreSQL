@@ -28,16 +28,16 @@ You'll work with synthetic customers, orders, order lines, and products in a
 disposable PostgreSQL database. The course does not require access to a live
 store, production credentials, or an LLM account.
 
-    Python MCP client and tests
-               |
-               v
-    Exograph MCP interface
-               |
-               v
-    Domain model and access rules
-               |
-               v
-    PostgreSQL commerce schema
+```mermaid
+flowchart TD
+    pythonClient["Python MCP client and tests"]
+    exographMcp["Exograph MCP interface"]
+    domainModel["Domain model and access rules"]
+    postgres["PostgreSQL commerce schema"]
+    pythonClient --> exographMcp
+    exographMcp --> domainModel
+    domainModel --> postgres
+```
 
 PostgreSQL remains the system of record. The Exograph model describes what
 the data means, how entities relate, and who may access them. MCP exposes

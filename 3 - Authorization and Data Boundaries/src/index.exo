@@ -26,13 +26,8 @@ module Commerce {
     }
 
     @access(
-        query = (
-            AuthContext.role == "customer"
-            && (
-                (AuthContext.customerId == 1 && self.order.orderId == 101)
-                || (AuthContext.customerId == 2 && self.order.orderId == 102)
-            )
-        ) || AuthContext.role == "internal_staff_report",
+        query = (AuthContext.role == "customer" && self.order.customer.customerId == AuthContext.customerId)
+            || AuthContext.role == "internal_staff_report",
         mutation = false
     )
     type OrderItem {

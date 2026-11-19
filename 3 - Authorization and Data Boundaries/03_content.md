@@ -41,6 +41,29 @@ Run these checks on Exograph's query interface before enabling MCP. A denial may
 | A customer requests the staff report | Denied. |
 | Staff requests January 2026 sales for PAID and SHIPPED orders | Books: 3,600 cents; Games: 800 cents; no customer names. |
 
+## PostgreSQL row-level security, beside the model
+
+PostgreSQL can also hide rows. The companion [rls_comparison.sql](rls_comparison.sql) runs as the setup role, enables row-level security on `commerce.orders`, and adds one policy:
+
+```sql
+USING (customer_id = current_setting('app.customer_id')::integer)
+```
+
+The setup role is the database superuser, so the script switches to `exograph_runtime` for the filtered reads. With `app.customer_id` set to `1`, that role sees order 101. Set to `2`, it sees order 102. The script then rolls the transaction back. The Exograph runtime role keeps the `SELECT` grant from Module 1, and this policy is not left in place.
+
+```mermaid
+flowchart TD
+    grants["PostgreSQL grants: exograph_runtime may SELECT"]
+    rls["Row Level Security: a session setting picks the customer"]
+    claims["Exograph claims: role and customer_id from the JWT"]
+    grants --> rls
+    rls --> claims
+```
+
+The three controls answer different questions. A grant decides whether a login may read the table. A policy decides which rows that login's session may see. An Exograph `@access` rule decides which rows a caller may see from a verified claim. Students implement the Exograph rules. The SQL policy is the comparison.
+
+`OrderItem` access follows the parent order: `self.order.customer.customerId` must equal `AuthContext.customerId`. It does not list fixture order ids. `internal_staff_report` is a context the staff-report module injects when it runs its privileged query. It is not a JWT role. A staff token carries `role=staff`, which authorizes `staffSalesReport` and does not grant blanket customer history.
+
 ## Evidence and handoff
 
 Submit the access matrix, model rules and verified claims they use, and a pass/fail record that includes direct and nested isolation checks. Omit tokens and connection strings. List the read-only operations eligible for Module 4 MCP exposure. Both customer self-reads must succeed, cross-customer reads must fail on every exposed path, and staff reporting must return only approved data.

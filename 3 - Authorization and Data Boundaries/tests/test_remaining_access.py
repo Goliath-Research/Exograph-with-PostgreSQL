@@ -1,7 +1,7 @@
-"""Opt-in checks for the planned Module 3 GraphQL contract.
+"""Opt-in checks for the Module 3 GraphQL contract.
 
-Align field names and argument types with the runnable Exograph model before
-using these tests as release evidence. The staff aggregate must be implemented.
+Field names and argument types match the runnable Exograph model.
+The staff aggregate is staffSalesReport in src/index.exo.
 """
 import unittest
 
