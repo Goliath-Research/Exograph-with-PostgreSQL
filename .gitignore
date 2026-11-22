@@ -221,3 +221,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local PostgreSQL dumps (contain password hashes)
+pg*-dump.sql

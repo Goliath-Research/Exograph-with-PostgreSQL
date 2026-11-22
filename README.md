@@ -105,6 +105,55 @@ cross-customer read must be fixed before the capstone passes.
   separate controls. Test each one independently.
 - The verified setup guide will identify the supported Exograph, PostgreSQL,
   and Python versions and include startup and test commands.
+- PostgreSQL 19 is the course standard. The Module 1 lab runs the `postgres:19`
+  image.
+
+### Moving an existing PostgreSQL 18 lab volume to 19
+
+Changing the image tag alone does not work. A `postgres:19` container started
+on a volume that holds a PostgreSQL 18 cluster refuses to start, because the
+on-disk format differs between major versions. The lab data is disposable, so
+the simplest path is `docker compose down --volumes` and a fresh start, which
+reruns the bootstrap. To keep local changes, use one of these instead. Both
+start from the old Compose file, so run them before pulling the tag change, or
+temporarily set the image back to `postgres:18`.
+
+- **Dump and restore (recommended for this lab).** With the PostgreSQL 18
+  container running, from `1 - Reproducible PostgreSQL Lab`:
+
+  ```powershell
+  docker compose exec postgres pg_dumpall -U lab_admin -f /tmp/pg18-dump.sql
+  docker compose cp postgres:/tmp/pg18-dump.sql ./pg18-dump.sql
+  docker compose down --volumes
+  ```
+
+  Switch `compose.yaml` to `postgres:19`. Restore into the new volume with a
+  one-off container that does not mount `bootstrap.sql`, because the dump
+  already contains the roles, schema, and grants. Use your own throwaway
+  password. Expect an `already exists` error for `lab_admin`; it is harmless.
+
+  ```powershell
+  docker run -d --name pg19-restore -e POSTGRES_USER=lab_admin -e POSTGRES_PASSWORD=$env:LAB_ADMIN_PASSWORD -v exograph-course-module-1_pgdata:/var/lib/postgresql postgres:19
+  docker cp ./pg18-dump.sql pg19-restore:/tmp/pg18-dump.sql
+  docker exec pg19-restore psql -U lab_admin -d postgres -f /tmp/pg18-dump.sql
+  docker rm -f pg19-restore
+  docker compose up -d --wait
+  ```
+
+  The volume name is `<compose project name>_pgdata`; the project name in
+  `compose.yaml` is `exograph-course-module-1`. The dump contains password
+  hashes, so delete `pg18-dump.sql` afterward and never commit it. Rerun
+  `verify.sql` as described in the Module 1 runbook; it expects the original
+  fixture row counts.
+- **`pg_upgrade`.** Run `pg_upgrade` (use `--link` for speed) with both the 18
+  and 19 binaries available. The lab mounts `/var/lib/postgresql`, the layout
+  that keeps `18/docker` and `19/docker` side by side on one mount, so
+  `--link` works without mount-point boundary problems. The official image
+  does not ship the 18 binaries; use a community upgrade image or a host with
+  both versions installed. See the
+  [docker-library discussion](https://github.com/docker-library/postgres/issues/37).
+  After the upgrade, run `vacuumdb --all --analyze-in-stages` to rebuild
+  planner statistics.
 
 ## Course series
 
