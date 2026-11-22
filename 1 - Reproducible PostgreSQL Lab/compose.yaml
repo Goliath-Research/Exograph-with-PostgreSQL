@@ -1,7 +1,7 @@
 name: exograph-course-module-1
 services:
   postgres:
-    image: postgres:18
+    image: postgres:19
     environment:
       POSTGRES_DB: exograph_commerce
       POSTGRES_USER: lab_admin
